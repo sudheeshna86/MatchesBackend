@@ -4,7 +4,7 @@ Backend API for the Matches application built with Node.js, Express and PostgreS
 
 ---
 
-## 🚀 Features
+## Features
 
 - User registration and login with JWT
 - Protected endpoints using JWT middleware
@@ -14,7 +14,7 @@ Backend API for the Matches application built with Node.js, Express and PostgreS
 
 ---
 
-## 🧭 Tech Stack
+##  Tech Stack
 
 - Node.js + Express
 - PostgreSQL (pg)
@@ -24,7 +24,7 @@ Backend API for the Matches application built with Node.js, Express and PostgreS
 
 ---
 
-## 📁 Folder Structure
+##  Folder Structure
 
 ```
 MatchesBackend/
@@ -121,7 +121,7 @@ Server listens on `http://localhost:5000` (or `PORT` from `.env`).
 
 ---
 
-## 🧾 Seed Data
+##  Seed Data
 
 Run the seed script to add sample matches:
 
