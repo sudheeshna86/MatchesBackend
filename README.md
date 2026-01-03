@@ -1,0 +1,132 @@
+# Matches App — Backend
+
+Backend API for the Matches application built with Node.js, Express and PostgreSQL. Provides user authentication and endpoints to fetch matches and manage favorites.
+
+---
+
+## 🚀 Features
+
+- User registration and login with JWT
+- Protected endpoints using JWT middleware
+- Fetch matches with optional filters (sport, search by team)
+- Add / Remove favorites for authenticated users
+- Seed script to insert sample matches
+
+---
+
+## 🧭 Tech Stack
+
+- Node.js + Express
+- PostgreSQL (pg)
+- bcrypt for password hashing
+- JSON Web Tokens (jsonwebtoken)
+- dotenv for configuration
+
+---
+
+## 📁 Folder Structure
+
+```
+MatchesBackend/
+├── src/
+│   ├── config/      # DB configuration (pg pool)
+│   ├── controllers/ # Route handlers (auth, match, favorite)
+│   ├── middleware/  # auth middleware
+│   ├── routes/      # express routes
+│   ├── seed.js      # seed sample matches
+│   └── index.js     # server entry
+├── package.json
+```
+
+---
+
+## 🔧 Environment Variables
+
+Create a `.env` file with:
+
+```
+PORT=5000
+DATABASE_URL=postgres://user:password@localhost:5432/dbname
+JWT_SECRET=your_jwt_secret
+```
+
+- For production (e.g., hosted DB) `DATABASE_URL` may include SSL; the project config already sets `ssl: { rejectUnauthorized: false }`.
+
+---
+
+## 🧾 Database Schema (example)
+
+Run these SQL commands to create required tables if using a fresh DB:
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE matches (
+  id SERIAL PRIMARY KEY,
+  sport TEXT,
+  league TEXT,
+  team_a TEXT,
+  team_b TEXT,
+  start_time TIMESTAMP
+);
+
+CREATE TABLE favorites (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  match_id INTEGER REFERENCES matches(id) ON DELETE CASCADE
+);
+```
+
+---
+
+## 🧪 Run Locally
+
+1. Install dependencies
+
+```bash
+git clone https://github.com/sudheeshna86/MatchesBackend
+cd MatchesBackend
+npm install
+```
+
+2. Set `.env` values (see Environment Variables section)
+
+3. Start server
+
+```bash
+npm run dev
+```
+
+Server listens on `http://localhost:5000` (or `PORT` from `.env`).
+
+---
+
+## 🔌 Key Endpoints
+
+- `POST /auth/register` — register new user
+  - payload: `{ name, email, password }`
+- `POST /auth/login` — login
+  - payload `{ email, password }` → returns `{ token }`
+- `GET /matches` — fetch matches
+  - optional query: `?sport=Cricket&search=CSK`
+- `GET /favorites` — get current user favorites (requires `Authorization: Bearer <token>`)
+- `POST /favorites/:matchId` — add favorite (auth required)
+- `DELETE /favorites/:matchId` — remove favorite (auth required)
+
+---
+
+## 🧾 Seed Data
+
+Run the seed script to add sample matches:
+
+```bash
+node src/seed.js
+```
+
+---
+
