@@ -108,15 +108,16 @@ Server listens on `http://localhost:5000` (or `PORT` from `.env`).
 
 ## 🔌 Key Endpoints
 
-- `POST /auth/register` — register new user
-  - payload: `{ name, email, password }`
-- `POST /auth/login` — login
-  - payload `{ email, password }` → returns `{ token }`
-- `GET /matches` — fetch matches
-  - optional query: `?sport=Cricket&search=CSK`
-- `GET /favorites` — get current user favorites (requires `Authorization: Bearer <token>`)
-- `POST /favorites/:matchId` — add favorite (auth required)
-- `DELETE /favorites/:matchId` — remove favorite (auth required)
+| Method | Endpoint | Description | Auth required |
+| ------ | -------- | ----------- | ------------- |
+| POST | `/auth/register` | Register a new user. Payload: `{ name, email, password }` | No |
+| POST | `/auth/login` | Login user. Payload: `{ email, password }` → Returns `{ token }` | No |
+| GET | `/matches` | Fetch matches. Optional query parameters: `sport`, `search` (by team name) | No |
+| GET | `/favorites` | Get current user's favorite matches | Yes (Bearer token)
+| POST | `/favorites/:matchId` | Add a match to favorites (use match id in URL) | Yes (Bearer token)
+| DELETE | `/favorites/:matchId` | Remove a match from favorites (use match id in URL) | Yes (Bearer token)
+
+---
 
 ---
 
